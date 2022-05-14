@@ -1,0 +1,20 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: stop the server
+      run: docker-compose down
+    - name: remove last image
+      run: docker rmi -f backendcicd
+    - name: start the server
+      run: docker-compose up -d
