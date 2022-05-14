@@ -1,0 +1,20 @@
+name: publish production version
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: [self-hosted, production]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: stop the server
+      run: sudo docker-compose down
+    - name: remove last image
+      run: sudo docker rmi -f backendcicd
+    - name: start the server
+      run: sudo docker-compose up -d
